@@ -40,20 +40,17 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer@2.4-service \
     android.hardware.memtrack-service.example \
     android.hardware.sensors@2.0-service.multihal \
-    hostapd \
     WifiOverlayA14x \
     libsec-ril \
     libsecc2_shim \
     libsensorndkbridge_shim \
     sehradio \
     vndservicemanager \
-    wpa_supplicant
 
 # IMS (VoLTE): Samsung's IMS stack is One UI-only, so use the open-source PhhIms
 # (packages/apps/PhhIms, github.com/krazey/ims)
 PRODUCT_PACKAGES += \
     Iwlan \
-    PhhIms \
     QualifiedNetworksService
 
 PRODUCT_COPY_FILES += \
