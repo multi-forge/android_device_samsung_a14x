@@ -1,4 +1,4 @@
 runtime_resource_overlay {
-    name: "WifiOverlayM14x",
+    name: "WifiOverlayA14x",
     vendor: true,
 }

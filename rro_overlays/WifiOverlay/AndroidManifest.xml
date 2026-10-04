@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.wifi.resources.m14x">
+    package="com.android.wifi.resources.a14x">
     <application android:hasCode="false" />
     <overlay
         android:targetPackage="com.android.wifi.resources"

@@ -1,116 +1,31 @@
-# Samsung Galaxy F14 5G (SM-E146B) — LineageOS 22.1
+# Samsung Galaxy A14 5G (SM-A146M / SM-A146B) — LineageOS 22.1
 
-![Samsung Galaxy F14 5G](assets/sm-e146b.png)
-
-**Codename:** m14x · **SoC:** Samsung Exynos 1330 (s5e8535) · **Android 15**
-
----
+Unified device tree for Samsung Galaxy A14 5G (SM-A146M / SM-A146B), codename `a14x`, based on the Samsung Exynos 1330 (`s5e8535`) platform for LineageOS 22.1 (Android 15).
 
 ## Device Specifications
 
 | Feature | Specification |
-|---|---|
-| Model | Samsung Galaxy F14 5G (SM-E146B) |
-| Codename | m14x |
-| SoC | Samsung Exynos 1330 (s5e8535) — Cortex-A76 × 2 + Cortex-A55 × 6 |
-| RAM | 4 GB LPDDR4X |
-| Storage | 64 / 128 GB eUFS 2.1 |
-| Display | 6.6" PLS LCD, 1080 × 2408, 90 Hz |
-| Battery | 6000 mAh, 25 W fast charge |
-| Camera | 50 MP (main) + 2 MP (depth) · 13 MP front |
-| Partitions | Non-A/B (A-only), Dynamic (super) |
-| Boot | GKI 2.0 — boot header v4, vendor_boot, init_boot |
-| VNDK | 33 (first API level 33) |
-| OS shipped | Android 13 (OneUI 5.1) |
+|:---|:---|
+| **SoC** | Samsung Exynos 1330 (`s5e8535`) |
+| **CPU** | 2x 2.4 GHz Cortex-A78 + 6x 2.0 GHz Cortex-A55 |
+| **GPU** | ARM Mali-G68 MP2 (`valhall-r38p1`) |
+| **Memory** | 4 GB / 6 GB / 8 GB LPDDR4X |
+| **Storage** | 64 GB / 128 GB UFS 2.2 |
+| **Display** | 6.6" 1080x2408 PLS LCD, 90Hz (450 DPI) |
+| **Battery** | 5000 mAh Li-Po |
+| **Main Camera** | 50 MP (Samsung S5KJN1) + 2 MP macro + 2 MP depth |
+| **Front Camera** | 13 MP (Hynix HI1336) |
+| **Audio** | Realtek RT5691 / AW882XX amp |
 
----
+## Partition Scheme
+- Dynamic Partitions (A-only, EROFS): `system`, `system_ext`, `vendor`, `product`, `odm`, `vendor_dlkm`, `system_dlkm`
+- Super partition size: `8,287,944,704` bytes
+- Boot image: Boot Header v4 with generic GKI support (`init_boot` + `vendor_boot`)
 
-## Repository Structure
-
-```
-device/samsung/m14x/
-├── BoardConfig.mk          # Partition layout, GKI config, non-A/B flags
-├── device.mk               # HAL packages, feature flags
-├── manifest.xml            # VINTF HAL declarations
-├── vendor.prop             # ART heap sizing, board identity
-├── system.prop             # System-side overrides
-├── proprietary-files.txt   # Blob list for extract-files.py
-├── rootdir/etc/            # Init RC files, fstab
-└── sepolicy/vendor/        # SELinux policy stubs
-```
-
----
-
-## Companion Repositories
-
-| Repository | Purpose |
-|---|---|
-| [android_vendor_samsung_m14x](https://github.com/goofyshwetank/android_vendor_samsung_m14x) | Proprietary blobs extracted from stock firmware |
-| [android_kernel_samsung_s5e8535](https://github.com/goofyshwetank/android_kernel_samsung_s5e8535) | Kernel source for Exynos 1330 |
-
----
-
-## Build Status
-
-| Component | Status |
-|---|---|
-| Boot / system_server | Working |
-| Display / Touch | Working |
-| USB (ADB) | Working |
-| Audio | Partial — HAL loads, stream routing incomplete |
-| WiFi | Broken — wpa_supplicant CANNOT LINK |
-| Bluetooth | Broken — FLAG_ONEWAY binder crash |
-| Camera / Codec2 | Broken — VNDK namespace issue |
-| GPS | Disabled — GNSS AIDL v2 not in Android 15 |
-| Fingerprint / Face | Broken — TrustZone lib missing |
-| Telephony (RIL) | Broken — com.android.phone ANR |
-
----
-
-## Setting Up a Build
-
-> Requires a full LineageOS 22.1 source tree initialized with `repo init`.
-
+## Compilation
+To compile LineageOS 22.1 for `a14x`:
 ```bash
-# Clone trees into your LineageOS source
-git clone https://github.com/goofyshwetank/android_device_samsung_m14x     device/samsung/m14x
-
-git clone https://github.com/goofyshwetank/android_vendor_samsung_m14x     vendor/samsung/m14x
-
-git clone https://github.com/goofyshwetank/android_kernel_samsung_s5e8535     kernel/samsung/s5e8535
-
-# Open-source IMS (VoLTE)
-git clone --recurse-submodules https://github.com/krazey/ims     packages/apps/PhhIms
-git -C packages/apps/PhhIms checkout a3fec01 && git -C packages/apps/PhhIms submodule update --init --recursive
-git -C packages/apps/PhhIms apply ../../../device/samsung/m14x/patches/PhhIms/*.patch
-
-# Airtel only hands out DNS over IPv6
-git -C vendor/apn apply ../../device/samsung/m14x/patches/apn/*.patch
-
-# Build
 source build/envsetup.sh
-breakfast m14x
-m
+lunch lineage_a14x-userdebug
+mka bacon
 ```
-
----
-
-## Fastboot Notes
-
-- **Enter fastbootd:** `adb reboot fastboot` (NOT `adb reboot bootloader` — that opens Samsung Odin mode)
-- **Flash vendor:** `fastboot flash vendor vendor.img && fastboot reboot`
-
----
-
-## Known Important Fixes
-
-- **BootControl excluded** — m14x is non-A/B. Adding `android.hardware.boot@*` will cause a crash loop on every boot.
-- **GNSS AIDL v2 removed from manifest** — `android.hardware.gnss-V2-ndk.so` doesn't exist in Android 15; LocationManagerService blocks for 66 s waiting for it.
-- **ART heap** — `dalvik.vm.heap*` must be set in `vendor.prop`; the default 16 MB cap causes OOM in system_server.
-- **USB HIDL libs** — `android.hardware.usb@1.0`–`@1.3.so` must all be in `vendor/lib64/`; UsbService blocks `CompletableFuture.join()` indefinitely if the USB HAL can't link.
-
----
-
-## Credits
-
-Bring-up by [goofyshwetank](https://github.com/goofyshwetank) — LineageOS 22.1 (Android 15) port for SM-E146B.

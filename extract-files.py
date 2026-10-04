@@ -180,10 +180,10 @@ blob_fixups: blob_fixups_user_type = {
 }
 
 module = ExtractUtilsModule(
-    'm14x',
+    'a14x',
     'samsung',
     blob_fixups=blob_fixups,
-    namespace_imports=['device/samsung/m14x'],
+    namespace_imports=['device/samsung/a14x'],
 )
 
 if __name__ == '__main__':

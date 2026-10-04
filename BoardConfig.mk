@@ -1,7 +1,7 @@
 # Copyright (C) 2026 The LineageOS Project
 # SPDX-License-Identifier: Apache-2.0
 
-DEVICE_PATH := device/samsung/m14x
+DEVICE_PATH := device/samsung/a14x
 
 # Architecture
 TARGET_ARCH := arm64
@@ -38,9 +38,9 @@ BOARD_KERNEL_CMDLINE := androidboot.hardware=s5e8535 firmware_class.path=/vendor
 TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_KERNEL_SOURCE := kernel/samsung/s5e8535
-BOARD_PREBUILT_DTBIMAGE_DIR := device/samsung/m14x/prebuilts/dtb
-BOARD_PREBUILT_DTBOIMAGE := device/samsung/m14x/prebuilts/dtbo.img
-TARGET_KERNEL_CONFIG := s5e8535-m14xnsxx_defconfig
+BOARD_PREBUILT_DTBIMAGE_DIR := device/samsung/a14x/prebuilts/dtb
+BOARD_PREBUILT_DTBOIMAGE := device/samsung/a14x/prebuilts/dtbo.img
+TARGET_KERNEL_CONFIG := s5e8535-a14xnsxx_defconfig
 TARGET_KERNEL_CLANG_COMPILE := true
 TARGET_KERNEL_LLVM_BINUTILS := true
 # Stock vendor modules load by symbol CRC (modversions); keep the GKI release suffix
@@ -144,5 +144,5 @@ BOARD_SYSTEM_EXT_SEPOLICY_PREBUILT_DIRS := $(DEVICE_PATH)/sepolicy/prebuilt_api
 BOARD_HOSTAPD_DRIVER := NL80211
 
 # Inherit from proprietary vendor when present
--include vendor/samsung/m14x/BoardConfigVendor.mk
-TARGET_FS_CONFIG_GEN := device/samsung/m14x/config.fs
+-include vendor/samsung/a14x/BoardConfigVendor.mk
+TARGET_FS_CONFIG_GEN := device/samsung/a14x/config.fs
