@@ -30,21 +30,13 @@ BUILD_BROKEN_PREBUILT_ELF_FILES := true
 TARGET_FLATTEN_APEX := true
 
 
-# Kernel
+# Kernel (Prebuilt NightKernel v2.0.0)
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 4096
-BOARD_KERNEL_IMAGE_NAME := Image
-BOARD_KERNEL_CMDLINE := androidboot.hardware=s5e8535 firmware_class.path=/vendor/firmware
-TARGET_KERNEL_ARCH := arm64
-TARGET_KERNEL_HEADER_ARCH := arm64
-TARGET_KERNEL_SOURCE := kernel/samsung/s5e8535
-BOARD_PREBUILT_DTBIMAGE_DIR := device/samsung/a14x/prebuilts/dtb
-BOARD_PREBUILT_DTBOIMAGE := device/samsung/a14x/prebuilts/dtbo.img
-TARGET_KERNEL_CONFIG := s5e8535-a14xnsxx_defconfig
-TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_LLVM_BINUTILS := true
-# Stock vendor modules load by symbol CRC (modversions); keep the GKI release suffix
-TARGET_KERNEL_ADDITIONAL_FLAGS := LLVM=1 LLVM_IAS=1 TARGET_SOC=s5e8535 BRANCH=android13-5.15 KMI_GENERATION=3 LOCALVERSION=-31192385 KCFLAGS="-Wno-error -Wno-strict-prototypes -Wno-implicit-int"
+BOARD_KERNEL_CMDLINE := androidboot.hardware=s5e8535 firmware_class.path=/vendor/firmware androidboot.selinux=permissive
+BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilts/dtb
+BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilts/kernel
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 
