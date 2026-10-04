@@ -30,13 +30,14 @@ BUILD_BROKEN_PREBUILT_ELF_FILES := true
 TARGET_FLATTEN_APEX := true
 
 
-# Kernel (Prebuilt NightKernel v2.0.0)
+# Kernel (Prebuilt NightKernel v2.0.0 + Headers from NightKernel tree)
 BOARD_KERNEL_BASE := 0x10000000
 BOARD_KERNEL_PAGESIZE := 4096
 BOARD_KERNEL_CMDLINE := androidboot.hardware=s5e8535 firmware_class.path=/vendor/firmware androidboot.selinux=permissive
 BOARD_PREBUILT_DTBIMAGE_DIR := $(DEVICE_PATH)/prebuilts/dtb
 BOARD_PREBUILT_DTBOIMAGE := $(DEVICE_PATH)/prebuilts/dtbo.img
 TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilts/kernel
+TARGET_KERNEL_SOURCE := kernel/samsung/a14x/tree
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 
